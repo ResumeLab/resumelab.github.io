@@ -1,0 +1,13 @@
+.resume-icon {
+    display: inline-block;
+    background-color: currentColor;
+
+    mask-image: var(--resume-icon);
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+.resume-icon--meta {
+    inline-size: 8pt;
+    block-size: 8pt;
+}

@@ -1,0 +1,15 @@
+.resume-vertical-space {
+    width: 100%;
+}
+
+.resume-vertical-space--small {
+    height: 4pt;
+}
+
+.resume-vertical-space--medium {
+    height: 8pt;
+}
+
+.resume-vertical-space--large {
+    height: 12pt;
+}

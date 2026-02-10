@@ -1,0 +1,18 @@
+.paper-view {
+    min-height: 100vh;
+    padding: 32px 16px;
+    background: #f3f4f6;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+@media print {
+    .paper-view {
+        padding: 0;
+        background: transparent;
+        display: block;
+        min-height: auto;
+    }
+}

@@ -1,0 +1,16 @@
+.resume-horizontal-space {
+    display: inline-block;
+    flex: 0 0 auto;
+}
+
+.resume-horizontal-space--small {
+    inline-size: 4pt;
+}
+
+.resume-horizontal-space--medium {
+    inline-size: 8pt;
+}
+
+.resume-horizontal-space--large {
+    inline-size: 12pt;
+}

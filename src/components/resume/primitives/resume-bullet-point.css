@@ -1,0 +1,27 @@
+.resume-bullet-point {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.resume-bullet-point__marker {
+    flex: 0 0 auto;
+    inline-size: 10pt;
+    line-height: 1.2;
+    display: inline-flex;
+    justify-content: center;
+}
+
+.resume-bullet-point__dot {
+    inline-size: 3pt;
+    block-size: 3pt;
+    border-radius: 50%;
+    background: currentColor;
+
+    margin-top: 4pt;
+}
+
+.resume-bullet-point__content {
+    flex: 1 1 auto;
+    min-width: 0;
+}

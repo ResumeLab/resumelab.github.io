@@ -1,0 +1,10 @@
+.resume-keep-together {
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+@media print {
+    .resume-keep-together {
+        break-inside: avoid-page;
+    }
+}

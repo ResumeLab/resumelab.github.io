@@ -1,0 +1,14 @@
+.resume-text {
+    color: #000;
+}
+
+.resume-text--title {
+    font-size: 22pt;
+    line-height: 1.15;
+    font-weight: 600;
+}
+
+.resume-text--meta {
+    font-size: 8pt;
+    line-height: 1.2;
+}

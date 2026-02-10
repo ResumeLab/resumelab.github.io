@@ -1,0 +1,47 @@
+.resume-doc {
+    width: 8.5in;
+    min-height: 11in;
+    padding: 0.65in 0.75in;
+
+    background: #fff;
+    color: #222;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 11pt;
+    line-height: 1.35;
+
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.resume-doc * {
+    box-sizing: border-box;
+}
+
+.resume-doc a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.resume-doc a:hover {
+    text-decoration: underline;
+}
+
+@media print {
+    body {
+        margin: 0;
+    }
+
+    .resume-doc {
+        width: 100%;
+        min-height: auto;
+        padding: 0;
+
+        border: none;
+        box-shadow: none;
+    }
+
+    .resume-doc a:hover {
+        text-decoration: none;
+    }
+}

@@ -1,0 +1,18 @@
+.resume-block {
+    display: flex;
+}
+
+.resume-block--start {
+    justify-content: flex-start;
+    text-align: left;
+}
+
+.resume-block--center {
+    justify-content: center;
+    text-align: center;
+}
+
+.resume-block--space {
+    justify-content: space-between;
+    width: 100%;
+}

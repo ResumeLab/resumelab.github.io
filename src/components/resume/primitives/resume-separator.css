@@ -1,0 +1,19 @@
+.resume-separator {
+    width: 100%;
+}
+
+.resume-separator--light {
+    background-color: #d5dbe1;
+}
+
+.resume-separator--dark {
+    background-color: #707070;
+}
+
+.resume-separator--thin {
+    height: 1px;
+}
+
+.resume-separator--bold {
+    height: 2px;
+}
