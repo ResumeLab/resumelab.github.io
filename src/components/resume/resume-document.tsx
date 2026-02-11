@@ -4,7 +4,7 @@ import {ResumeContactLine} from "./parts/resume-contact-line.tsx";
 import type {ResumeData} from "../../contexts/resume-types.tsx";
 import {ResumeVerticalSpace} from "./primitives/resume-vertical-space.tsx";
 import {ResumeSeparator} from "./primitives/resume-separator.tsx";
-import {ResumeText} from "./primitives/resume-text.tsx";
+import {ResumeMultilineText} from "./primitives/resume-text.tsx";
 import {ResumeSectionHeader} from "./parts/resume-section-header.tsx";
 import {ResumeExperience} from "./parts/resume-experience.tsx";
 import {ResumeEducation} from "./parts/resume-education.tsx";
@@ -28,8 +28,7 @@ export function ResumeDocument({data}: { data: ResumeData }) {
 
             <ResumeKeepTogether>
                 <ResumeSectionHeader>SUMMARY</ResumeSectionHeader>
-
-                <ResumeText variant="body">{data.summary.text}</ResumeText>
+                <ResumeMultilineText variant="body">{data.summary.text}</ResumeMultilineText>
                 <ResumeVerticalSpace size={'large'}/>
             </ResumeKeepTogether>
 
