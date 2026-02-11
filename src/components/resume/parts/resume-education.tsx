@@ -12,13 +12,13 @@ export function ResumeEducation({ data }: Props) {
     return (
         <>
             <ResumeBlock align="start">
-                <ResumeText variant="body">
+                <ResumeText variant="info">
                     {title}
                 </ResumeText>
             </ResumeBlock>
 
             <ResumeBlock align="start">
-                <ResumeText variant="body">
+                <ResumeText variant="info">
                     {meta}
                 </ResumeText>
             </ResumeBlock>

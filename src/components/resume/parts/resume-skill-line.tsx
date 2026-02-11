@@ -21,7 +21,10 @@ export function ResumeSkillLine({ data }: ResumeSkillLineProps) {
     return (
         <>
             <ResumeBlock align="start">
-                <ResumeText variant="body">{label} {" "} {content}</ResumeText>
+                <ResumeText variant="info">
+                    <span style={{fontWeight: 600}}>{label}</span>
+                    <span>{" "} {content}</span>
+                </ResumeText>
             </ResumeBlock>
             <ResumeVerticalSpace size={"small"}/>
         </>

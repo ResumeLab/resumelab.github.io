@@ -14,7 +14,7 @@ export function ResumeExperience({ data }: ResumeExperienceProps) {
     const periodEnd = (data.period_end && data.period_end.trim()) ? data.period_end : 'Present';
     const period = [data.period_start, periodEnd].filter(Boolean).join(" - ");
 
-    const metaParts = [period, data.location].filter(Boolean).join(", ");
+    const metaParts = [period].filter(Boolean).join(", ");
 
     return (
         <>
@@ -23,9 +23,11 @@ export function ResumeExperience({ data }: ResumeExperienceProps) {
             </ResumeBlock>
 
             <ResumeBlock align="space">
-                <ResumeText variant="info">{data.organization}</ResumeText>
+                <ResumeText variant="info">{data.organization} ({data.location})</ResumeText>
                 <ResumeText variant="info">{metaParts}</ResumeText>
             </ResumeBlock>
+
+            <ResumeVerticalSpace size="small" />
 
             {(data.details ?? []).map((text, index) => (
                 <ResumeBulletPoint key={index}>
