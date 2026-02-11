@@ -18,7 +18,12 @@ export function ResumeText({children, variant = 'body'}: ResumeTextProps) {
 }
 
 export function ResumeMultilineText({children, variant = 'body'}: ResumeTextProps) {
-    const lines = children.split('\n');
+    if (typeof children !== 'string') {
+        return null;
+    }
+
+    const normalized = children.replace(/\n+$/, '');
+    const lines = normalized.split('\n');
 
     return lines.map((line: string, index: any) => (
         <div>

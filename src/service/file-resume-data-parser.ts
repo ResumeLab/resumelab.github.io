@@ -1,4 +1,5 @@
 import type {
+    AchievementsData,
     EducationData,
     ExperienceData,
     PersonData,
@@ -20,6 +21,7 @@ export class FileResumeDataParser {
         return {
             person: await this.parseFile("person.toml", this.parsePersonData) ?? {},
             summary: await this.parseFile("summary.toml", this.parseSummaryData) ?? {},
+            achievements: await this.parseFile("achievements.toml", this.parseAchievementsData) ?? {},
             experience: await this.parseDirectory("experience", this.parseExperience),
             skills: await this.parseDirectory("skills", this.parseSkills),
             educations: await this.parseDirectory("education", this.parseEducations)
@@ -50,6 +52,14 @@ export class FileResumeDataParser {
 
         return {
             text: data["text"]
+        }
+    }
+
+    private async parseAchievementsData(text: string): Promise<AchievementsData> {
+        const data = parse(text) as Record<string, any>;
+
+        return {
+            items: Array.isArray(data["items"]) ? data["items"] : []
         }
     }
 

@@ -10,6 +10,7 @@ import {ResumeEducation} from "./parts/resume-education.tsx";
 import {ResumeSkillLine} from "./parts/resume-skill-line.tsx";
 import {ResumeKeepTogether} from "./primitives/resume-keep-together.tsx";
 import {ResumeSummary} from "./parts/resume-summary.tsx";
+import {ResumeAchievements} from "./parts/resume-achievements.tsx";
 
 
 export function ResumeDocument({data}: { data: ResumeData }) {
@@ -27,6 +28,8 @@ export function ResumeDocument({data}: { data: ResumeData }) {
             <ResumeVerticalSpace size={'large'}/>
 
             <ResumeSummary data={data.summary}/>
+
+            <ResumeAchievements data={data.achievements}/>
 
             <>
                 {data.experience.length > 0 && (

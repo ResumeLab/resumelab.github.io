@@ -11,6 +11,10 @@ export interface SummaryData {
     text?: string;
 }
 
+export interface AchievementsData {
+    items?: string[];
+}
+
 export interface EducationData {
     institution: string;
     degree: string;
@@ -36,6 +40,7 @@ export interface ExperienceData {
 export interface ResumeData {
     person: PersonData;
     summary: SummaryData;
+    achievements: AchievementsData;
     educations: EducationData[];
     skills: SkillData[];
     experience: ExperienceData[];
