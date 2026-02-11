@@ -13,12 +13,12 @@
 }
 
 .resume-bullet-point__dot {
-    inline-size: 3pt;
-    block-size: 3pt;
+    inline-size: 2pt;
+    block-size: 2pt;
     border-radius: 50%;
     background: currentColor;
 
-    margin-top: 4pt;
+    margin-top: 7pt;
 }
 
 .resume-bullet-point__content {

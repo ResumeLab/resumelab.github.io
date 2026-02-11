@@ -11,7 +11,7 @@ export function ResumeSectionHeader({children}: ResumeSectionHeaderProps) {
     return (
         <>
             <ResumeBlock align="start">
-                <ResumeText variant="body">{children}</ResumeText>
+                <ResumeText variant="section">{children}</ResumeText>
             </ResumeBlock>
             <ResumeSeparator weight="bold" tone="dark"/>
             <ResumeVerticalSpace size={'small'}/>

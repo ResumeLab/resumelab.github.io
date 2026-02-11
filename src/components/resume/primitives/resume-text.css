@@ -1,5 +1,9 @@
 .resume-text {
     color: #000;
+
+    font-size: 9.5pt;
+    line-height: 1.45;
+    font-weight: 400;
 }
 
 .resume-text--title {
@@ -11,4 +15,21 @@
 .resume-text--meta {
     font-size: 8pt;
     line-height: 1.2;
+}
+
+.resume-text--section {
+    font-size: 12pt;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.resume-text--role {
+    font-size: 11pt;
+    font-weight: 700;
+}
+
+.resume-text--info {
+    font-size: 10.5pt;
+    font-weight: 400;
 }

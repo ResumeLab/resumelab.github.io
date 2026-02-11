@@ -4,7 +4,7 @@ import './resume-text.css';
 
 type ResumeTextProps = {
     children: any;
-    variant?: 'title' | 'meta' | 'body';
+    variant?: 'title' | 'meta' | 'section' | 'role' | 'info' | 'body';
 };
 
 export function ResumeText({children, variant = 'body'}: ResumeTextProps) {

@@ -19,12 +19,12 @@ export function ResumeExperience({ data }: ResumeExperienceProps) {
     return (
         <>
             <ResumeBlock align="start">
-                <ResumeText variant="body">{roleText}</ResumeText>
+                <ResumeText variant="role">{roleText}</ResumeText>
             </ResumeBlock>
 
             <ResumeBlock align="space">
-                <ResumeText variant="body">{data.organization}</ResumeText>
-                <ResumeText variant="body">{metaParts}</ResumeText>
+                <ResumeText variant="info">{data.organization}</ResumeText>
+                <ResumeText variant="info">{metaParts}</ResumeText>
             </ResumeBlock>
 
             {(data.details ?? []).map((text, index) => (
