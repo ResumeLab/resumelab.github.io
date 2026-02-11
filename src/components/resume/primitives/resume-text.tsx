@@ -23,7 +23,7 @@ export function ResumeMultilineText({children, variant = 'body'}: ResumeTextProp
     return lines.map((line: string, index: any) => (
         <div>
             <ResumeText variant={variant} key={index}>
-                {line}
+                {line === '' ? '\u00A0' : line}
             </ResumeText>
         </div>
     ));
