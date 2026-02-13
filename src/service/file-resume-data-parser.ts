@@ -1,11 +1,11 @@
 import type {
-    AchievementsData,
+    AchievementsData, CapabilitiesData,
     EducationData,
     ExperienceData,
     PersonData,
     ResumeData,
     SkillData,
-    SummaryData
+    SummaryData, ToolsData
 } from "../contexts/resume-types.tsx";
 import {FileApiWrapper} from "./file-api-wrapper.ts";
 import { parse } from "smol-toml";
@@ -22,6 +22,8 @@ export class FileResumeDataParser {
             person: await this.parseFile("person.toml", this.parsePersonData) ?? {},
             summary: await this.parseFile("summary.toml", this.parseSummaryData) ?? {},
             achievements: await this.parseFile("achievements.toml", this.parseAchievementsData) ?? {},
+            capabilities: await this.parseFile("capabilities.toml", this.parseCapabilitiesData) ?? {},
+            tools: await this.parseFile("tools.toml", this.parseToolsData) ?? {},
             experience: await this.parseDirectory("experience", this.parseExperience),
             skills: await this.parseDirectory("skills", this.parseSkills),
             educations: await this.parseDirectory("education", this.parseEducations)
@@ -59,6 +61,25 @@ export class FileResumeDataParser {
         const data = parse(text) as Record<string, any>;
 
         return {
+            title: data["title"] ?? undefined,
+            items: Array.isArray(data["items"]) ? data["items"] : []
+        }
+    }
+
+    private async parseCapabilitiesData(text: string): Promise<CapabilitiesData> {
+        const data = parse(text) as Record<string, any>;
+
+        return {
+            title: data["title"] ?? undefined,
+            items: Array.isArray(data["items"]) ? data["items"] : []
+        }
+    }
+
+    private async parseToolsData(text: string): Promise<ToolsData> {
+        const data = parse(text) as Record<string, any>;
+
+        return {
+            title: data["title"] ?? undefined,
             items: Array.isArray(data["items"]) ? data["items"] : []
         }
     }

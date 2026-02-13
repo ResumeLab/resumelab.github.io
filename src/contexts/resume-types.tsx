@@ -12,6 +12,17 @@ export interface SummaryData {
 }
 
 export interface AchievementsData {
+    title?: string;
+    items?: string[];
+}
+
+export interface CapabilitiesData {
+    title?: string;
+    items?: string[];
+}
+
+export interface ToolsData {
+    title?: string;
     items?: string[];
 }
 
@@ -41,6 +52,8 @@ export interface ResumeData {
     person: PersonData;
     summary: SummaryData;
     achievements: AchievementsData;
+    capabilities: CapabilitiesData;
+    tools: ToolsData;
     educations: EducationData[];
     skills: SkillData[];
     experience: ExperienceData[];

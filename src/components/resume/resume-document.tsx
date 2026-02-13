@@ -7,10 +7,12 @@ import {ResumeSeparator} from "./primitives/resume-separator.tsx";
 import {ResumeSectionHeader} from "./parts/resume-section-header.tsx";
 import {ResumeExperience} from "./parts/resume-experience.tsx";
 import {ResumeEducation} from "./parts/resume-education.tsx";
-import {ResumeSkillLine} from "./parts/resume-skill-line.tsx";
 import {ResumeKeepTogether} from "./primitives/resume-keep-together.tsx";
 import {ResumeSummary} from "./parts/resume-summary.tsx";
 import {ResumeAchievements} from "./parts/resume-achievements.tsx";
+import {ResumeSkills} from "./parts/resume-skill.tsx";
+import {ResumeCapabilities} from "./parts/resume-capabilities.tsx";
+import {ResumeTools} from "./parts/resume-tools.tsx";
 
 
 export function ResumeDocument({data}: { data: ResumeData }) {
@@ -65,12 +67,11 @@ export function ResumeDocument({data}: { data: ResumeData }) {
             <ResumeSeparator/>
             <ResumeVerticalSpace size={'large'}/>
 
-            <ResumeKeepTogether>
-                <ResumeSectionHeader>SKILLS</ResumeSectionHeader>
-                {data.skills.map((data, index) => (
-                    <ResumeSkillLine data={data} key={index}/>
-                ))}
-            </ResumeKeepTogether>
+            <ResumeCapabilities data={data.capabilities}/>
+
+            <ResumeTools data={data.tools}/>
+
+            <ResumeSkills data={data.skills} />
         </article>
     );
 }
