@@ -1,11 +1,8 @@
 import type {
-    AchievementsData, CapabilitiesData,
-    EducationData,
-    ExperienceData,
-    PersonData,
-    ResumeData,
-    SkillData,
-    SummaryData, ToolsData
+    BulletResumeViewData, ExperienceResumeViewData, LabelResumeViewData,
+    PersonResumeViewData,
+    ResumeViewData, SectionResumeViewData,
+    TextResumeViewData
 } from "../contexts/resume-types.tsx";
 import {FileApiWrapper} from "./file-api-wrapper.ts";
 import { parse } from "smol-toml";
@@ -17,20 +14,103 @@ export class FileResumeDataParser {
         this.root = root;
     }
 
-    async getResumeData(): Promise<ResumeData> {
-        return {
-            person: await this.parseFile("person.toml", this.parsePersonData) ?? {},
-            summary: await this.parseFile("summary.toml", this.parseSummaryData) ?? {},
-            achievements: await this.parseFile("achievements.toml", this.parseAchievementsData) ?? {},
-            capabilities: await this.parseFile("capabilities.toml", this.parseCapabilitiesData) ?? {},
-            tools: await this.parseFile("tools.toml", this.parseToolsData) ?? {},
-            experience: await this.parseDirectory("experience", this.parseExperience),
-            skills: await this.parseDirectory("skills", this.parseSkills),
-            educations: await this.parseDirectory("education", this.parseEducations)
+    async getResumeData(): Promise<ResumeViewData[]> {
+        const result = [];
+
+        const files = await this.root.list();
+
+        for (let file of files) {
+            if (file.isFile()) {
+                const view = await this.parseViewFile(file);
+                if (view) {
+                    result.push(view);
+                }
+                continue;
+            }
+
+            if(file.isDirectory()) {
+                const viewList = await this.parseViewDirectory(file);
+                result.push(...viewList);
+            }
         }
+
+        return result;
     }
 
-    private async parsePersonData(text: string): Promise<PersonData> {
+    private async parseViewDirectory(dir: FileApiWrapper): Promise<ResumeViewData[]> {
+        const items = await this.parseDirectoryViews(dir);
+
+        const configFile = await dir.select("config.toml");
+        if (configFile.isFile()) {
+            const title = await this.parseSectionTitle(configFile);
+
+            if(!title) {
+                return items;
+            }
+
+            const section: SectionResumeViewData = {
+                type: "section",
+                title,
+                items,
+            };
+
+            return [section];
+        }
+
+        return items;
+    }
+
+    private async parseSectionTitle(configFile: any): Promise<string | undefined> {
+        const text = await configFile.getText();
+        const data = parse(text) as Record<string, any>;
+
+        const title = data["title"];
+        return typeof title === "string" && title.trim().length > 0 ? title : undefined;
+    }
+
+    private async parseDirectoryViews(dir: FileApiWrapper): Promise<ResumeViewData[]> {
+        const fileList = await dir.list();
+
+        const result: ResumeViewData[] = [];
+
+        for (const file of fileList) {
+            if (!file.isFile()) {
+                continue;
+            }
+
+            const view = await this.parseViewFile(file);
+            if (view) {
+                result.push(view);
+            }
+        }
+
+        return result;
+    }
+
+    private async parseViewFile(file: any): Promise<ResumeViewData | undefined> {
+        const filename = String(file.name ?? "");
+        const text = await file.getText();
+
+        if (filename.endsWith("person.toml")) {
+            return this.parsePersonView(text);
+        }
+        if (filename.endsWith("text.toml")) {
+            return this.parseTextView(text);
+        }
+        if (filename.endsWith("bullet.toml")) {
+            return this.parseBulletView(text);
+        }
+        if (filename.endsWith("experience.toml")) {
+            return this.parseExperienceView(text);
+        }
+        if (filename.endsWith("label.toml")) {
+            return this.parseLabelView(text);
+        }
+
+        return undefined;
+    }
+
+    private parsePersonView(text: string): PersonResumeViewData {
         const data = parse(text) as Record<string, any>;
 
         const identity = data["identity"] ?? {};
@@ -38,114 +118,64 @@ export class FileResumeDataParser {
         const location = data["location"] ?? {};
 
         return {
+            type: "person",
             first_name: identity["first_name"],
             last_name: identity["last_name"],
-
             phone: contacts["phone"],
             email: contacts["email"],
-
             city: location["city"],
             state: location["state"],
         };
     }
 
-    private async parseSummaryData(text: string): Promise<SummaryData> {
+    private parseTextView(text: string): TextResumeViewData {
         const data = parse(text) as Record<string, any>;
 
         return {
-            text: data["text"]
-        }
-    }
-
-    private async parseAchievementsData(text: string): Promise<AchievementsData> {
-        const data = parse(text) as Record<string, any>;
-
-        return {
-            title: data["title"] ?? undefined,
-            items: Array.isArray(data["items"]) ? data["items"] : []
-        }
-    }
-
-    private async parseCapabilitiesData(text: string): Promise<CapabilitiesData> {
-        const data = parse(text) as Record<string, any>;
-
-        return {
-            title: data["title"] ?? undefined,
-            items: Array.isArray(data["items"]) ? data["items"] : []
-        }
-    }
-
-    private async parseToolsData(text: string): Promise<ToolsData> {
-        const data = parse(text) as Record<string, any>;
-
-        return {
-            title: data["title"] ?? undefined,
-            items: Array.isArray(data["items"]) ? data["items"] : []
-        }
-    }
-
-    private parseExperience(text: string): ExperienceData {
-        const data = parse(text) as Record<string, any>;
-
-        return {
-            organization: data["organization"],
-            role: Array.isArray(data["role"]) ? data["role"] : [],
-            period_start: data["period_start"],
-            period_end: data["period_end"],
-            location: data["location"],
-            details: Array.isArray(data["details"]) ? data["details"] : []
+            type: "text",
+            text: typeof data["text"] === "string" ? data["text"] : undefined,
         };
     }
 
-    private parseSkills(text: string): SkillData {
+    private parseBulletView(text: string): BulletResumeViewData {
         const data = parse(text) as Record<string, any>;
+        const itemsRaw = data["items"];
+
+        const items = Array.isArray(itemsRaw) ? itemsRaw.filter((x) => typeof x === "string") : [];
 
         return {
+            type: "bullet",
+            items,
+        };
+    }
+
+    private parseLabelView(text: string): LabelResumeViewData {
+        const data = parse(text) as Record<string, any>;
+
+        const itemsRaw = data["items"];
+        const items = Array.isArray(itemsRaw) ? itemsRaw.filter((x) => typeof x === "string") : [];
+
+        return {
+            type: "label",
             name: data["name"],
-            items: Array.isArray(data["items"]) ? data["items"] : []
+            items
         };
     }
 
-    private parseEducations(text: string): EducationData {
+    private parseExperienceView(text: string): ExperienceResumeViewData {
         const data = parse(text) as Record<string, any>;
 
+        const roleRaw = data["role"];
+        const detailsRaw = data["details"];
+
         return {
-            institution: data["institution"],
-            degree: data["degree"],
-            field: data["field"]
+            type: "experience",
+            organization: typeof data["organization"] === "string" ? data["organization"] : undefined,
+            role: Array.isArray(roleRaw) ? roleRaw.filter((x) => typeof x === "string") : [],
+            period_start: typeof data["period_start"] === "string" ? data["period_start"] : undefined,
+            period_end: typeof data["period_end"] === "string" ? data["period_end"] : undefined,
+            location: typeof data["location"] === "string" ? data["location"] : undefined,
+            details: Array.isArray(detailsRaw) ? detailsRaw.filter((x) => typeof x === "string") : [],
         };
-    }
-
-    private async parseFile<T>(path: string, handler: (text: string) => T): Promise<T | undefined> {
-        const target = await this.root.select(path);
-
-        if(!target.isFile()) {
-            return undefined;
-        }
-
-        const text = await target.getText();
-        return handler(text);
-    }
-
-    private async parseDirectory<T>(path: string, handler: (text: string) => T): Promise<T[]> {
-        const target = await this.root.select(path);
-
-        if (!target.isDirectory()) {
-            return [];
-        }
-
-        const children = await target.list();
-        const result: T[] = [];
-
-        for (const child of children) {
-            if (!child.isFile()) {
-                continue;
-            }
-
-            const text = await child.getText();
-            result.push(await handler(text));
-        }
-
-        return result;
     }
 }

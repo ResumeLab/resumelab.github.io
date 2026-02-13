@@ -1,14 +1,15 @@
-import { ResumeBlock } from "../primitives/resume-block";
-import { ResumeText } from "../primitives/resume-text";
-import { ResumeBulletPoint } from "../primitives/resume-bullet-point";
-import { ResumeVerticalSpace } from "../primitives/resume-vertical-space";
-import type {ExperienceData} from "../../../contexts/resume-types.tsx";
+import type {ExperienceResumeViewData} from "../../../contexts/resume-types.tsx";
+import {ResumeText} from "../primitives/resume-text.tsx";
+import {ResumeVerticalSpace} from "../primitives/resume-vertical-space.tsx";
+import {ResumeBlock} from "../primitives/resume-block.tsx";
+import {ResumeBulletPoint} from "../primitives/resume-bullet-point.tsx";
+import {ResumeKeepTogether} from "../primitives/resume-keep-together.tsx";
 
-type ResumeExperienceProps = {
-    data: ExperienceData;
+type ExperienceViewProps = {
+    data: ExperienceResumeViewData;
 };
 
-export function ResumeExperience({ data }: ResumeExperienceProps) {
+export function ExperienceResumeView({data}: ExperienceViewProps) {
     const roleText = data.role?.filter(Boolean).join(" / ") ?? "";
 
     const periodEnd = (data.period_end && data.period_end.trim()) ? data.period_end : 'Present';
@@ -17,7 +18,7 @@ export function ResumeExperience({ data }: ResumeExperienceProps) {
     const metaParts = [period].filter(Boolean).join(", ");
 
     return (
-        <>
+        <ResumeKeepTogether>
             <ResumeBlock align="start">
                 <ResumeText variant="role">{data.organization}</ResumeText>
             </ResumeBlock>
@@ -34,8 +35,6 @@ export function ResumeExperience({ data }: ResumeExperienceProps) {
                     <ResumeText variant="body">{text}</ResumeText>
                 </ResumeBulletPoint>
             ))}
-
-            <ResumeVerticalSpace size="large" />
-        </>
+        </ResumeKeepTogether>
     );
 }

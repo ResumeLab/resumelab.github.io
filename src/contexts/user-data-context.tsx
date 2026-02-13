@@ -1,11 +1,11 @@
 import {createContext, type ReactNode, useContext, useState} from 'react';
-import type {ResumeData} from "./resume-types.tsx";
+import type {ResumeViewData} from "./resume-types.tsx";
 import {FileResumeDataParser} from "../service/file-resume-data-parser.ts";
 import {FileApiWrapper} from "../service/file-api-wrapper.ts";
 import {FileTreeChangeDetector} from "../service/file-change-detector.ts";
 
 type UserDataContextValue = {
-    data: ResumeData | undefined;
+    data: ResumeViewData[] | undefined;
     selectFolder: () => Promise<void>;
 };
 
@@ -17,7 +17,7 @@ const UserDataContext = createContext<UserDataContextValue>({
 });
 
 export function UserDataProvider({children}: { children: ReactNode }) {
-    const [resumeData, setResumeData] = useState<ResumeData | undefined>(undefined);
+    const [resumeData, setResumeData] = useState<ResumeViewData[] | undefined>(undefined);
 
     const selectFolder = async () => {
         if (!("showDirectoryPicker" in window)) {
