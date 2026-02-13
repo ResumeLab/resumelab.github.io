@@ -19,11 +19,11 @@ export function ResumeExperience({ data }: ResumeExperienceProps) {
     return (
         <>
             <ResumeBlock align="start">
-                <ResumeText variant="role">{roleText}</ResumeText>
+                <ResumeText variant="role">{data.organization}</ResumeText>
             </ResumeBlock>
 
             <ResumeBlock align="space">
-                <ResumeText variant="info">{data.organization} ({data.location})</ResumeText>
+                <ResumeText variant="info">{roleText} ({data.location})</ResumeText>
                 <ResumeText variant="info">{metaParts}</ResumeText>
             </ResumeBlock>
 
